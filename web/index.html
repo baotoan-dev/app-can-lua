@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <base href="$FLUTTER_BASE_HREF">
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="Sổ Cân Lúa Nông Sản - Ứng dụng cân lúa, trừ bì, đọc giọng nói và in phiếu hiện trường">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Sổ Cân Lúa">
+  <meta name="theme-color" content="#115E2E">
+
+  <!-- Google Fonts: Be Vietnam Pro, Plus Jakarta Sans, Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <title>Sổ Cân Lúa - Cân Lúa Nông Sản Hiện Trường</title>
+  <link rel="manifest" href="manifest.json">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #0A3D1D;
+      font-family: 'Be Vietnam Pro', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    #app-splash-loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, #1B5E20 0%, #0d280e 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 999999;
+      transition: opacity 0.4s ease-out, visibility 0.4s;
+    }
+
+    .logo-container {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      background: linear-gradient(135deg, #2E7D32, #003300);
+      border-radius: 24px;
+      border: 3px solid #FFB300;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4), 0 0 24px rgba(255, 179, 0, 0.35);
+      animation: pulseGlow 2.5s infinite ease-in-out;
+    }
+
+    @keyframes pulseGlow {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 179, 0, 0.3);
+      }
+      50% {
+        transform: scale(1.05);
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 32px rgba(255, 179, 0, 0.6);
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 179, 0, 0.3);
+      }
+    }
+
+    .logo-svg {
+      width: 65px;
+      height: 65px;
+    }
+
+    .app-title {
+      margin-top: 24px;
+      color: #FFFFFF;
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    .app-subtitle {
+      margin-top: 6px;
+      color: #FFB300;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+    }
+
+    .progress-track {
+      margin-top: 32px;
+      width: 180px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-bar {
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(90deg, #FFB300, #FFE082, #FFB300);
+      border-radius: 4px;
+      position: absolute;
+      animation: progressMove 1.5s infinite ease-in-out;
+    }
+
+    @keyframes progressMove {
+      0% {
+        left: -60%;
+      }
+      100% {
+        left: 100%;
+      }
+    }
+
+    .loading-hint {
+      margin-top: 14px;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 11px;
+      letter-spacing: 0.3px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Custom Branded Splash Screen -->
+  <div id="app-splash-loader">
+    <div class="logo-container">
+      <!-- Golden Rice Stalk & Balance Scale Custom Vector Logo -->
+      <svg class="logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Scale Base -->
+        <rect x="22" y="84" width="56" height="6" rx="3" fill="#FFFFFF" />
+        <!-- Pillar -->
+        <rect x="47" y="38" width="6" height="46" rx="3" fill="#FFFFFF" />
+        <!-- Beam -->
+        <rect x="14" y="36" width="72" height="6" rx="3" fill="#FFFFFF" />
+        <!-- Center Pivot Knob -->
+        <circle cx="50" cy="39" r="6" fill="#FFB300" />
+        <!-- Left Pan Strings & Pan -->
+        <line x1="22" y1="42" x2="14" y2="60" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" />
+        <line x1="22" y1="42" x2="30" y2="60" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" />
+        <path d="M10 60 C10 66, 34 66, 34 60 Z" fill="#FFB300" />
+        <!-- Right Pan Strings & Pan -->
+        <line x1="78" y1="42" x2="70" y2="60" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" />
+        <line x1="78" y1="42" x2="86" y2="60" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" />
+        <path d="M66 60 C66 66, 90 66, 90 60 Z" fill="#FFB300" />
+        <!-- Golden Rice Stalk in Center -->
+        <ellipse cx="50" cy="14" rx="4" height="6" fill="#FFD54F" />
+        <ellipse cx="43" cy="20" rx="3.5" ry="5.5" transform="rotate(-25 43 20)" fill="#FFB300" />
+        <ellipse cx="57" cy="20" rx="3.5" ry="5.5" transform="rotate(25 57 20)" fill="#FFB300" />
+        <ellipse cx="42" cy="28" rx="3.5" ry="5.5" transform="rotate(-30 42 28)" fill="#FFA000" />
+        <ellipse cx="58" cy="28" rx="3.5" ry="5.5" transform="rotate(30 58 28)" fill="#FFA000" />
+      </svg>
+    </div>
+
+    <div class="app-title">SỔ CÂN LÚA</div>
+    <div class="app-subtitle">CÂN ĐỐI SOÁT & XUẤT PHIẾU HIỆN TRƯỜNG</div>
+
+    <div class="progress-track">
+      <div class="progress-bar"></div>
+    </div>
+    <div class="loading-hint">Đang khởi động hệ thống...</div>
+  </div>
+
+  <!-- Smart Natural Vietnamese Speech Synthesis Interceptor -->
+  <script>
+    (function() {
+      if (typeof window === 'undefined' || !window.speechSynthesis) return;
+
+      var originalSpeak = window.speechSynthesis.speak.bind(window.speechSynthesis);
+      var originalCancel = window.speechSynthesis.cancel ? window.speechSynthesis.cancel.bind(window.speechSynthesis) : function(){};
+      var currentAudio = null;
+      var cachedVoices = [];
+
+      function cacheVoices() {
+        try {
+          var v = window.speechSynthesis.getVoices();
+          if (v && v.length) cachedVoices = v;
+        } catch(e) {}
+      }
+
+      if ('onvoiceschanged' in window.speechSynthesis) {
+        window.speechSynthesis.onvoiceschanged = cacheVoices;
+      }
+      cacheVoices();
+
+      window.speechSynthesis.cancel = function() {
+        if (currentAudio) {
+          try {
+            currentAudio.pause();
+            currentAudio.currentTime = 0;
+          } catch(e) {}
+          currentAudio = null;
+        }
+        originalCancel();
+      };
+
+      window.speechSynthesis.speak = function(utterance) {
+        if (!utterance || !utterance.text) return;
+        var text = utterance.text.trim();
+        var lang = (utterance.lang || 'vi-VN').toLowerCase();
+
+        var isVi = lang.indexOf('vi') === 0 || /[àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]/i.test(text);
+
+        if (isVi) {
+          // Check if system has a high-quality natural Vietnamese voice
+          cacheVoices();
+          var voices = cachedVoices.length ? cachedVoices : (window.speechSynthesis.getVoices() || []);
+          var naturalVoice = voices.find(function(v) {
+            var vName = (v.name || '').toLowerCase();
+            var vLang = (v.lang || '').toLowerCase();
+            return (vLang.indexOf('vi') === 0 || vName.indexOf('vietnam') !== -1) &&
+                   (vName.indexOf('natural') !== -1 || vName.indexOf('hoaimy') !== -1 || vName.indexOf('nam') !== -1 || vName.indexOf('google') !== -1);
+          });
+
+          if (naturalVoice) {
+            utterance.voice = naturalVoice;
+            if (!utterance.rate || utterance.rate < 0.8) {
+              utterance.rate = 1.15;
+            }
+            return originalSpeak(utterance);
+          }
+
+          // If no natural Vietnamese voice installed, stream crystal-clear Vietnamese voice via /api/tts proxy!
+          if (currentAudio) {
+            try {
+              currentAudio.pause();
+              currentAudio.currentTime = 0;
+            } catch(e) {}
+            currentAudio = null;
+          }
+
+          var audioUrl = '/api/tts?text=' + encodeURIComponent(text);
+          currentAudio = new Audio(audioUrl);
+          var effectiveRate = (utterance.rate && utterance.rate > 0) ? utterance.rate : 1.15;
+          currentAudio.playbackRate = Math.min(Math.max(effectiveRate, 0.8), 2.0);
+
+          currentAudio.onended = function() {
+            if (typeof utterance.onend === 'function') {
+              utterance.onend({ type: 'end' });
+            }
+            currentAudio = null;
+          };
+
+          currentAudio.onerror = function() {
+            currentAudio = null;
+            originalSpeak(utterance);
+          };
+
+          var promise = currentAudio.play();
+          if (promise !== undefined) {
+            promise.catch(function() {
+              currentAudio = null;
+              originalSpeak(utterance);
+            });
+          }
+          return;
+        }
+
+        return originalSpeak(utterance);
+      };
+    })();
+  </script>
+
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>
